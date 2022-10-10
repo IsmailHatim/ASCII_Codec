@@ -44,6 +44,7 @@ class Codec:
         self.shader = shader
 
 
+
     def imgtotext(self, data : list) -> string:
         txt = ""
         for i in range(0, len(data)):
@@ -71,21 +72,22 @@ class Codec:
             self.txt += "\n"    
         return self.txt
 
+    def texttoimg(self, data : list) -> Image.Image:
+                count = 0
+                if self.txt=="":
+                    self.imgtotext()
+                image_fin = Image.new("L",(width,height))
+                fnt = ImageFont.truetype(FONT_PATH, 40)
+                d = ImageDraw.Draw(image_fin)
 
-        def texttoimg(self, data : list) -> Image.Image:
-            count = 0
-            if self.text=="":
-                self.imgtotext()
-            image_fin = Image.new("L",(len(data[0]),len(data)))
-            fnt = ImageFont.truetype(FONT_PATH, 40)
-            d = ImageDraw.Draw(image_fin)
-
-            for i in range(0,len(text)):
-                if (text[i]+text[i+1]) == "\n":
-                    count += 1
-                d.text((i,count), text[i], font = fnt, fill = (255,255,255))
+                for i in range(0,len(self.txt)):
+                    if (self.txt[i]) == "\n":
+                        count += 1
+                    d.text((i*SAMPLER_SIZE,count*SAMPLER_SIZE), self.txt[i], fill = 255)
+                
+                return image_fin
             
-            return d
+        
 
 
 with Image.open("data/img2.jpg") as img:
@@ -108,8 +110,7 @@ def main():
 
     txt = codec.imgtotext(sub_sampler.sampled_mat)
     print(txt)
-
-
+    codec.texttoimg(sub_sampler.sampled_mat).show()
 
 main()
 
