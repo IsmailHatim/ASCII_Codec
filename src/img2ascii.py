@@ -3,8 +3,8 @@ from PIL import Image, ImageOps, ImageFont, ImageDraw
 from math import *
 import numpy as np
 
-SAMPLER_SIZE = 20
-ASCII_SHADERS = " .:-=+*#%@"
+SAMPLER_SIZE = 4
+ASCII_SHADERS = "@%#*+=-:. "
 FONT_PATH = "data/fonts/PIXEARG_.TTF"
 
 
@@ -69,6 +69,7 @@ class Codec:
                     self.txt += self.shader[1]
                 elif data[i][j] < 255 and data[i][j] > 225:
                     self.txt += self.shader[0]
+                self.txt += " "
             self.txt += "\n"    
         return self.txt
 
@@ -90,7 +91,7 @@ class Codec:
         
 
 
-with Image.open("data/img2.jpg") as img:
+with Image.open("data/img3.jpg") as img:
     img_cropped_grey = ImageOps.fit(img.convert("L"),(img.size[0]-img.size[0]%SAMPLER_SIZE,img.size[1]-img.size[1]%SAMPLER_SIZE))
     width = img_cropped_grey.size[0]
     height = img_cropped_grey.size[1]
@@ -110,7 +111,7 @@ def main():
 
     txt = codec.imgtotext(sub_sampler.sampled_mat)
     print(txt)
-    codec.texttoimg(sub_sampler.sampled_mat).show()
+    #codec.texttoimg(sub_sampler.sampled_mat).show()
 
 main()
 
