@@ -3,7 +3,7 @@ from PIL import Image, ImageOps, ImageFont, ImageDraw
 from math import *
 import numpy as np
 
-SAMPLER_SIZE = 4
+SAMPLER_SIZE = 20
 ASCII_SHADERS = "@%#*+=-:. "
 FONT_PATH = "data/fonts/PIXEARG_.TTF"
 
@@ -91,7 +91,7 @@ class Codec:
         
 
 
-with Image.open("data/img3.jpg") as img:
+with Image.open("data/img4.jpg") as img:
     img_cropped_grey = ImageOps.fit(img.convert("L"),(img.size[0]-img.size[0]%SAMPLER_SIZE,img.size[1]-img.size[1]%SAMPLER_SIZE))
     width = img_cropped_grey.size[0]
     height = img_cropped_grey.size[1]
