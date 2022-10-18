@@ -3,9 +3,10 @@ from PIL import Image, ImageOps, ImageFont, ImageDraw
 from math import *
 import numpy as np
 
-SAMPLER_SIZE = 20
-ASCII_SHADERS = "@%#*+=-:. "
+SAMPLER_SIZE = 8
+ASCII_SHADERS = "@%#*+=-. "
 FONT_PATH = "data/fonts/PIXEARG_.TTF"
+IMG_PATH = "data/img.jpg"
 
 
 
@@ -49,26 +50,7 @@ class Codec:
         txt = ""
         for i in range(0, len(data)):
             for j in range(0, len(data[0])):
-                if data[i][j] < 25:
-                    self.txt += self.shader[9]
-                elif data[i][j] < 50 and data[i][j] > 25:
-                    self.txt += self.shader[8]
-                elif data[i][j] < 75 and data[i][j] > 50:
-                    self.txt += self.shader[7]
-                elif data[i][j] < 100 and data[i][j] > 75:
-                    self.txt += self.shader[6]
-                elif data[i][j] < 125 and data[i][j] > 100:
-                    self.txt += self.shader[5]
-                elif data[i][j] < 150 and data[i][j] > 125:
-                    self.txt += self.shader[4]
-                elif data[i][j] < 175 and data[i][j] > 150:
-                    self.txt += self.shader[3]
-                elif data[i][j] < 200 and data[i][j] > 175:
-                    self.txt += self.shader[2]
-                elif data[i][j] < 225 and data[i][j] > 200:
-                    self.txt += self.shader[1]
-                elif data[i][j] < 255 and data[i][j] > 225:
-                    self.txt += self.shader[0]
+                self.txt += self.shader[len(self.shader)-1-round((data[i][j]/255)*(len(self.shader)-1))]
                 self.txt += " "
             self.txt += "\n"    
         return self.txt
@@ -91,7 +73,7 @@ class Codec:
         
 
 
-with Image.open("data/img4.jpg") as img:
+with Image.open(IMG_PATH) as img:
     img_cropped_grey = ImageOps.fit(img.convert("L"),(img.size[0]-img.size[0]%SAMPLER_SIZE,img.size[1]-img.size[1]%SAMPLER_SIZE))
     width = img_cropped_grey.size[0]
     height = img_cropped_grey.size[1]
@@ -100,14 +82,12 @@ with Image.open("data/img4.jpg") as img:
 
 def main():
     
+    #TODO : add function to return sampler size for a given resolution
 
     sub_sampler = Sub_sampler(SAMPLER_SIZE)
     codec = Codec(ASCII_SHADERS)
     
     sampled_img = sub_sampler.sample(data)
-    sampled_img.show()
-
-
 
     txt = codec.imgtotext(sub_sampler.sampled_mat)
     print(txt)
