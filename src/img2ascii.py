@@ -94,4 +94,3 @@ def main():
     #codec.texttoimg(sub_sampler.sampled_mat).show()
 
 main()
-
