@@ -2,4 +2,4 @@
 ASCII Art Encoder for images and videos
 
 # How to use:
-Install needed packages, upload image 
+Install needed packages, upload image in data dir.
